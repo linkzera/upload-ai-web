@@ -41,9 +41,6 @@ export function PromptSelect({ onPromptSelected }: PromptSelectProps) {
             {prompt.title}
           </SelectItem>
         ))}
-        <SelectItem value="tags" disabled>
-          Mais opções em breve...
-        </SelectItem>
       </SelectContent>
     </Select>
   )

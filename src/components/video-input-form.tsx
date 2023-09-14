@@ -26,7 +26,11 @@ const statusMessages = {
   error: 'Ocorreu um erro ao carregar o vídeo.',
 }
 
-export function VideoInputForm() {
+interface VideoInputFormProps {
+  onVideoUploaded: (videoId: string) => void
+}
+
+export function VideoInputForm(props: VideoInputFormProps) {
   const [file, setFile] = useState<File | null>(null)
   const [status, setStatus] = useState<Status>('waiting')
 
@@ -90,14 +94,14 @@ export function VideoInputForm() {
         'Content-Type': 'multipart/form-data',
       },
     })
-    const videoId = response.data.video.id
-
+    const videoId: string = response.data.video.id
     setStatus('generating')
     await api.post(`/videos/${videoId}/transcription`, {
       prompt,
     })
 
     setStatus('success')
+    props.onVideoUploaded(videoId)
   }
 
   const previewURL = useMemo(() => {
